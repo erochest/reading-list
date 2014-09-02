@@ -9,7 +9,7 @@ test: build
 	cabal test --test-option=--color
 
 run:
-	cabal run -- --epub-spec=epub.json --output=epub.epub
+	cabal run -- --epub-spec=epub.json --output=epub.epub --working=output
 
 # docs:
 # generate api documentation

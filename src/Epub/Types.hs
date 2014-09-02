@@ -13,8 +13,9 @@ import           Prelude                   hiding (FilePath)
 
 
 data Opts = Opts
-          { _epubSpec   :: FilePath
-          , _epubOutput :: FilePath
+          { _epubSpec    :: FilePath
+          , _epubWorking :: Maybe FilePath
+          , _epubOutput  :: FilePath
           } deriving (Show)
 $(makeLenses ''Opts)
 

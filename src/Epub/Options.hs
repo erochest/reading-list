@@ -21,6 +21,9 @@ opts :: Parser Opts
 opts =   Opts
      <$> fileOption (  short 's' <> long "epub-spec" <> metavar "JSON_FILE"
                     <> help "The JSON file detailing what will be in the EPUB.")
+     <*> optional   ( fileOption (  short 'w' <> long "working"
+                                 <> metavar "WORKING_DIR"
+                                 <> help "The location of a working directory."))
      <*> fileOption (  short 'o' <> long "output" <> metavar "EPUB_FILE"
                     <> help "The output file to create.")
 
