@@ -4,6 +4,7 @@
 module Main where
 
 
+import           Control.Applicative
 import           Control.Error
 import           Control.Lens              hiding (element, (<.>))
 import           Control.Monad
@@ -43,26 +44,29 @@ main = runScript $ do
     scriptIO $
         (`unless` FS.createTree working) =<< FS.isDirectory working
 
-    forM_ chapters $ \(i, url) -> do
+    markdown <- fmap (foldr mappend mempty) . forM chapters $ \(i, url) -> do
         let url'   = T.unpack url
             base   = Path.decode . TL.toStrict . format "{}" . Only
                    $ F.left 2 '0' i
             output = working </> base <.> "md"
-        scriptIO $ putStrLn url'
+        md <-  toMD
+           .   renderLBS def
+           .   articles
+           .   parseResp
+           <$> scriptIO (get url')
+        writeMD output md
+        return md
 
-        scriptIO $   writeMD output
-                 .   toMD
-                 .   renderLBS def
-                 .   articles
-                 .   parseResp
-                 =<< get url'
-
-        scriptIO $ putStrLn ""
+    scriptIO . FS.writeFile (_epubOutput o) . B.toStrict
+             =<< scriptIO (writeEPUB def markdown)
 
     where readerOpts = def { readerExtensions = pandocExtensions }
           writerOpts = def
           doc el     = Document (Prologue [] Nothing []) el []
-          writeMD o  = FS.writeTextFile o . T.pack . writeMarkdown writerOpts
+          writeMD o  = scriptIO
+                     . FS.writeTextFile o
+                     . T.pack
+                     . writeMarkdown writerOpts
           toMD       = readHtml readerOpts . UTF8.toStringLazy
           articles   = doc
                      . Element "div" mempty
