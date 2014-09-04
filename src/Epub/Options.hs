@@ -15,7 +15,7 @@ import           Prelude                   hiding (FilePath)
 
 
 fileOption :: Mod OptionFields FilePath -> Parser FilePath
-fileOption fields = nullOption (reader (pure . decodeString) <> fields)
+fileOption = option (pure . decodeString)
 
 opts :: Parser Opts
 opts =   Opts
