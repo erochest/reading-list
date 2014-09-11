@@ -1,14 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 
-module Epub.Options
+module ReadingList.Options
     ( opts
     , opts'
     , execParser
     ) where
 
 
-import           Epub.Types
+import           ReadingList.Types
 import           Filesystem.Path.CurrentOS hiding (decode)
 import           Options.Applicative
 import           Prelude                   hiding (FilePath)
@@ -31,4 +31,4 @@ opts' :: ParserInfo Opts
 opts' = info (helper <*> opts)
              (  fullDesc
              <> progDesc "Downloads web pages into an EPUB."
-             <> header "epub -- downloads web pages into an EPUB.")
+             <> header "reading-list -- downloads web pages into an EPUB.")

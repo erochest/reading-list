@@ -1,7 +1,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 
-module Epub.Types where
+module ReadingList.Types where
 
 
 import           Control.Lens

@@ -30,8 +30,8 @@ import qualified Text.Pandoc.UTF8          as UTF8
 import           Text.XML
 import           Text.XML.Cursor
 
-import           Epub.Options
-import           Epub.Types
+import           ReadingList.Options
+import           ReadingList.Types
 
 
 main :: IO ()
